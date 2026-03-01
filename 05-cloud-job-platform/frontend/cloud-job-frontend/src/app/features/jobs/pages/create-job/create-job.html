@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <div class="card">
+    <h2>Create New Job</h2>
+
+    <label class="file-upload">
+      <input type="file" (change)="onFileSelected($event)" hidden />
+      <span class="upload-btn">
+        {{ selectedFile?.name || 'Choose a file' }}
+      </span>
+    </label>
+
+    <button class="btn" (click)="createJob()" [disabled]="isLoading || !selectedFile">
+      Upload
+      <span *ngIf="!isLoading">Create Job</span>
+      <span *ngIf="isLoading" class="loader"></span>
+    </button>
+  </div>
+</div>

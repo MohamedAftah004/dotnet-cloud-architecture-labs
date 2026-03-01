@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: cloudjob-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=StrongPass123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: cloudjob-localstack
+    environment:
+      - SERVICES=s3,sqs
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - "4566:4566"
+
+  backend:
+    build:
+      context: ./backend/CloudJobEngine
+      dockerfile: Dockerfile
+    container_name: cloudjob-api
+    depends_on:
+      - sqlserver
+      - localstack
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CloudJobEngineDb;User Id=sa;Password=StrongPass123!;TrustServerCertificate=True;
+      - AWS__Region=us-east-1
+      - AWS__ServiceURL=http://localstack:4566
+      - AWS__AccessKey=test
+      - AWS__SecretKey=test
+      - AWS__S3__BucketName=cloud-job-bucket
+      - AWS__SQS__QueueUrl=http://localstack:4566/000000000000/cloud-job-queue
+    ports:
+      - "5000:8080"
+
+  frontend:
+    build:
+      context: ./frontend/cloud-job-ui
+      dockerfile: Dockerfile
+    container_name: cloud-job-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  sql_data:

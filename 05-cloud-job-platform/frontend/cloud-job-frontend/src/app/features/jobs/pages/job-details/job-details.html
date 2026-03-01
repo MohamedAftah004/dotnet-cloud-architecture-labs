@@ -1,0 +1,41 @@
+<!-- Loading State -->
+<div class="center" *ngIf="!job">
+  <div class="loader"></div>
+  <p>Loading job details...</p>
+</div>
+
+<!-- Data State -->
+<div class="container" *ngIf="job as j">
+  <div class="card">
+    <h2>Job Details</h2>
+
+    <div class="status-row">
+      <span class="label">Status</span>
+      <app-status-badge [status]="j.status"></app-status-badge>
+    </div>
+
+    <div class="info">
+      <div>
+        <span class="label">Job ID</span>
+        <p>{{ j.id }}</p>
+      </div>
+
+      <div>
+        <span class="label">User ID</span>
+        <p>{{ j.userId }}</p>
+      </div>
+
+      <div>
+        <span class="label">Created At</span>
+        <p>{{ j.createdAt | date: 'medium' }}</p>
+      </div>
+
+      <div *ngIf="j.processedAt">
+        <span class="label">Processed At</span>
+        <p>{{ j.processedAt | date: 'medium' }}</p>
+      </div>
+    </div>
+
+    <button routerLink="/jobs/create" class="btn">Create New Job</button>
+  </div>
+</div>
