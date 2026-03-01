@@ -5,7 +5,7 @@
 - ASP.NET Core
 - Clean Architecture
 - CQRS + MediatR
-- Amazon S3 (LocalStack)
+- Amazon S3 
 - Amazon SQS
 - Angular Frontend
 - Docker
