@@ -19,17 +19,3 @@
 5. Worker processes job
 6. Status updated
 
-## Run Locally
-
-### 1. Start LocalStack
-
-docker-compose up -d
-
-### 2. Run Backend
-
-dotnet run
-
-### 3. Run Frontend
-
-npm install
-ng serve
