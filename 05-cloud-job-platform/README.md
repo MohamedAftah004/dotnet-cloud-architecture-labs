@@ -1,4 +1,4 @@
-# 🚀 Cloud Job Processing Platform
+# Cloud Job Processing Platform
 
 ## Tech Stack
 
